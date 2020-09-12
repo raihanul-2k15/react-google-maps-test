@@ -32,6 +32,7 @@ const styles = {
         margin: '10px 0 20px 0',
         color: 'white',
         fontSize: '16px',
+        cursor: 'pointer',
     },
 };
 
