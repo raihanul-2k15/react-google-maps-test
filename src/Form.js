@@ -27,10 +27,11 @@ const styles = {
     button: {
         width: '100%',
         height: '40px',
-        backgroundColor: 'blue',
+        backgroundColor: '#1976d2',
         borderRadius: '5px',
         margin: '10px 0 20px 0',
         color: 'white',
+        fontSize: '16px',
     },
 };
 
@@ -68,7 +69,7 @@ function Form({ coordinates, name }) {
                 />
                 <br />
                 <button style={styles.button} onClick={onClick}>
-                    Log to Console
+                    Log To Console
                 </button>
             </form>
         </div>
