@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 import Modal from './Modal';
@@ -16,32 +16,71 @@ const mapStyles = {
     width: '100%',
 };
 
-const myName = 'Raihanul Islam';
-const myLocation = {
-    lat: 22.896807,
-    lng: 89.508878,
-};
+const myName = 'Raihanul Islam Refat';
 
 const App = () => {
+    const [locationInfo, setLocationInfo] = useState({
+        location: null,
+        status: '',
+    });
     const [modalOpen, setModalOpen] = useState(false);
+
+    const locationSuccessCallback = loc => {
+        setLocationInfo({
+            location: {
+                lat: loc.coords.latitude,
+                lng: loc.coords.longitude,
+            },
+            status: 'Location found',
+        });
+    };
+
+    const locationErrorCallback = err => {
+        setLocationInfo({ location: null, status: err.message });
+    };
+
+    useEffect(() => {
+        if (navigator.geolocation === undefined) {
+            setLocationInfo({
+                location: null,
+                status: 'Geolocation is unavailable in your browser',
+            });
+            return;
+        }
+        setLocationInfo({
+            ...locationInfo,
+            status: 'Requesting permission...',
+        });
+        navigator.geolocation.getCurrentPosition(
+            locationSuccessCallback,
+            locationErrorCallback,
+            {
+                timeout: 30000,
+            }
+        );
+    }, []);
 
     return (
         <div>
-            <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
-                <GoogleMap
-                    mapContainerStyle={mapStyles}
-                    zoom={10}
-                    center={myLocation}
-                >
-                    <Marker
-                        position={myLocation}
-                        onClick={() => setModalOpen(true)}
-                    />
-                </GoogleMap>
-            </LoadScript>
+            {locationInfo.location !== null ? (
+                <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+                    <GoogleMap
+                        mapContainerStyle={mapStyles}
+                        zoom={10}
+                        center={locationInfo.location}
+                    >
+                        <Marker
+                            position={locationInfo.location}
+                            onClick={() => setModalOpen(true)}
+                        />
+                    </GoogleMap>
+                </LoadScript>
+            ) : (
+                <h4>{locationInfo.status}</h4>
+            )}
             {modalOpen && (
                 <Modal onClose={() => setModalOpen(false)}>
-                    <Form coordinates={myLocation} name={myName} />
+                    <Form coordinates={locationInfo.location} name={myName} />
                 </Modal>
             )}
         </div>
