@@ -3,12 +3,14 @@ import React from 'react';
 const MY_MODAL_ID = 'my-modal-id';
 
 const styles = {
-    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
     top: 0,
     left: 0,
     margin: 0,
-    padding: 0,
-    backgroundColor: '#38383890',
+    backgroundColor: '#2f2f2f90',
     width: '100%',
     height: '100vh',
 };

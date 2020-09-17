@@ -2,12 +2,8 @@ import React from 'react';
 
 const styles = {
     root: {
-        position: 'relative',
-        top: '25%',
-        left: '50%',
-        margin: '0 0 0 -10%',
         padding: '0',
-        width: '20%',
+        width: '400px',
         fontSize: '14px',
         backgroundColor: 'white',
     },
